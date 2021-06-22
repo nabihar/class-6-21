@@ -1,0 +1,44 @@
+---
+title: "Soccer Birth Months"
+description: |
+ UEFA player birth months
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(httr)
+library(rvest)
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+data <- read_html("https://en.wikipedia.org/wiki/UEFA_Euro_2020_squads")
+
+data2 <- data %>% 
+html_elements("td:nth-child(4)") %>% 
+html_text2() %>% 
+as.tibble()
+
+write_csv(data2, "bdays.csv")
+
+data2 <- read_csv("bdays.csv",col_types = cols(value = col_character()))
+
+data2 %>%
+  mutate(date = parse_date(str_sub(value, 2, 11))) %>%   
+  mutate(raw_month = months(date)) %>% 
+  mutate(month = parse_factor(raw_month, levels = month.name)) %>%    group_by(month) %>%  
+  summarize(total = n()) %>% 
+  ggplot(aes(x = total,
+             y = month,
+             fill = month))+
+  geom_col()+
+  theme_minimal()+
+  labs(title = "Birth Months of 2020 UEFA Tournament Players",
+       subtitle = "Are older players better?",
+       x = "Number of Players",
+       y = "Birth Month",
+       caption = "Source: Wikipedia",
+       fill = "Month")
+```
+
