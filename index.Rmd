@@ -1,20 +1,23 @@
 ---
-title: "Soccer Birth Months"
+title: "UEFA Birthdays"
 description: |
-UEFA player birth months
+  Welcome to the website. I hope you enjoy it!
 site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
-library(httr)
 library(rvest)
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+# Learn more about publishing to GitHub Pages at:
+# https://rstudio.github.io/distill/publish_website.html#github-pages
 
 ```
 
 ```{r}
-
 data <- read_html("https://en.wikipedia.org/wiki/UEFA_Euro_2020_squads")
 
 data2 <- data %>% 
@@ -43,5 +46,4 @@ data2 %>%
        caption = "Source: Wikipedia",
        fill = "Month")
 ```
-
 
