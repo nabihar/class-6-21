@@ -10,8 +10,10 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(httr)
 library(rvest)
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
+
+```
+
+```{r}
 
 data <- read_html("https://en.wikipedia.org/wiki/UEFA_Euro_2020_squads")
 
